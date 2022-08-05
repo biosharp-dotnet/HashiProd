@@ -1,0 +1,4 @@
+site_name: HashiProd
+repo_url: git@github.com:biosharp-dotnet/HashiProd.git
+theme: readthedocs
+
