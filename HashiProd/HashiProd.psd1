@@ -24,10 +24,10 @@ GUID = '6ecec74b-0f64-4f96-b786-31fa981f3b6a'
 Author = 'Abhinav Sharma'
 
 # Company or vendor of this module
-CompanyName = 'Unknown'
+CompanyName = 'BioSharp OÜ'
 
 # Copyright statement for this module
-Copyright = '(c) Abhinav Sharma. All rights reserved.'
+Copyright = '(c) BioSharp OÜ. All rights reserved.'
 
 # Description of the functionality provided by this module
 Description = 'Wrapper for Hashicorp product releases API'
