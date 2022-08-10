@@ -1,16 +1,30 @@
-name: CI
-on: [push, pull_request]
+name: Create release
+on:
+  push:
+    tags:
+      - 'v*'
 jobs:
-  test:
-    name: Run Tests
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest, macOS-latest]
+  test_and_release:
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: Test
-      shell: pwsh
-      run: ./build.ps1 -Task Test -Bootstrap
+      - uses: actions/checkout@v2
+        with:
+         fetch-depth: 0
 
+      - name: Release on Powershell Gallery
+        shell: pwsh
+        run: |
+          $ModuleVersion = "${{github.ref_name}}" -replace ('[a-zA-Z\-]', '')
+          Update-ModuleManifest -Path ./HashiProd/HashiProd.psd1 -ModuleVersion $ModuleVersion
+          Publish-Module -Path ./HashiProd -NuGetApiKey ${{ secrets.PSGALLERY_TOKEN }}   
+
+      - name: Release on Github
+        uses: ncipollo/release-action@v1
+        with:
+          name: "${{github.ref_name}}"
+          artifacts: "LICENSE,CHANGELOG.md"
+          bodyFile: "release_body.md"
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+
+    
